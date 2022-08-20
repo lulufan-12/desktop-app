@@ -1,6 +1,4 @@
-package application.config.bean;
-
-import java.sql.SQLException;
+package application.bean;
 
 import javax.sql.DataSource;
 
@@ -16,14 +14,14 @@ public class FlywayBean {
 	private final DataSource dataSource;
 	
 	@Inject
-	public FlywayBean(DatasourceBean dataSourceBean) throws SQLException {
-		this.dataSource = dataSourceBean.getDataSource();
+	public FlywayBean(DataSource dataSource) {
+		this.dataSource = dataSource;
 	}
 
 	@Default
 	@Produces
 	@ApplicationScoped
-	public Flyway flyway() throws SQLException {
+	public Flyway flyway() {
 		return Flyway.configure()
 				.dataSource(dataSource)
 				.load();
