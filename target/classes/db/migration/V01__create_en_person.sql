@@ -1,0 +1,7 @@
+CREATE TABLE en_person (
+	person_id INTEGER PRIMARY KEY,
+	name VARCHAR(100) NOT NULL
+);
+
+CREATE SEQUENCE se_person INCREMENT BY 1 START WITH 1 OWNED BY en_person.person_id;
+
