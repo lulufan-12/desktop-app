@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 import javax.sql.DataSource;
+
+import lombok.AllArgsConstructor;
 import org.postgresql.osgi.PGDataSourceFactory;
 
 import application.utils.EnvUtils;
@@ -12,14 +14,10 @@ import jakarta.enterprise.inject.Default;
 import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;
 
+@AllArgsConstructor(onConstructor = @__(@Inject))
 public class DatasourceBean {
 	
 	private final EnvUtils envUtils;
-	
-	@Inject
-	public DatasourceBean(EnvUtils envUtils) {
-		this.envUtils = envUtils;
-	}
 	
 	@Default
 	@Produces

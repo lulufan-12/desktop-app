@@ -5,18 +5,16 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Default;
 import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;
+import lombok.AllArgsConstructor;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-	public class EntityManagerBean {
+@AllArgsConstructor(onConstructor = @__(@Inject))
+public class EntityManagerBean {
 
 	private final EnvUtils envUtils;
-	@Inject
-	public EntityManagerBean(EnvUtils envUtils) {
-		this.envUtils = envUtils;
-	}
 	
 	@Default
 	@Produces

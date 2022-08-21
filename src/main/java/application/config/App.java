@@ -1,17 +1,14 @@
 package application.config;
 
+import lombok.AllArgsConstructor;
 import org.flywaydb.core.Flyway;
 
 import jakarta.inject.Inject;
 
+@AllArgsConstructor(onConstructor = @__(@Inject))
 public class App {
 	
 	private final Flyway flyway;
-	
-	@Inject
-	public App(Flyway flyway) {
-		this.flyway = flyway;
-	}
 	
 	public void run() {
 		System.out.println("Application initialization...");
