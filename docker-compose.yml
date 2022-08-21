@@ -1,0 +1,25 @@
+volumes:
+  pgvolume:
+
+services:
+  postgres:
+    image: postgres:14.5-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=54325432
+      - POSTGRES_DB=application
+    ports:
+      - 5432:5432
+    volumes:
+      - pgvolume:/var/lib/postgresql
+
+  app:
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      - DB_URL=jdbc:postgresql://postgres:5432/application
+      - DB_USER=postgres
+      - DB_PASSWORD=54325432
+      - PERSISTENCE_UNIT=persistence
+      

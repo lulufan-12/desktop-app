@@ -4,14 +4,22 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 import javax.sql.DataSource;
-
 import org.postgresql.osgi.PGDataSourceFactory;
 
+import application.utils.EnvUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Default;
 import jakarta.enterprise.inject.Produces;
+import jakarta.inject.Inject;
 
 public class DatasourceBean {
+	
+	private final EnvUtils envUtils;
+	
+	@Inject
+	public DatasourceBean(EnvUtils envUtils) {
+		this.envUtils = envUtils;
+	}
 	
 	@Default
 	@Produces
@@ -19,9 +27,9 @@ public class DatasourceBean {
 	public DataSource getDataSource() throws SQLException {
 		Properties props = new Properties();
 		
-		props.put("url", "jdbc:postgresql://localhost:5432/application");
-		props.put("user", "postgres");
-		props.put("password", "54325432");
+		props.put("url", envUtils.getEnv(EnvUtils.DB_URL));
+		props.put("user", envUtils.getEnv(EnvUtils.DB_USER));
+		props.put("password", envUtils.getEnv(EnvUtils.DB_PASSWORD));
 		
 		return new PGDataSourceFactory().createDataSource(props);
 	}
