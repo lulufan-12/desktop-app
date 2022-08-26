@@ -1,5 +1,6 @@
 package application.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @ToString
 @MappedSuperclass
 @RequiredArgsConstructor
+@EqualsAndHashCode
 public class DefaultModel {
 
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -23,6 +25,9 @@ public class DefaultModel {
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+    
+    @Column(nullable = false)
+    private Boolean active = true;
 
     @PrePersist
     public void prePersist() {

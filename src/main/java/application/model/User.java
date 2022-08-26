@@ -1,15 +1,23 @@
 package application.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -19,6 +27,7 @@ import javax.persistence.Table;
 @Entity(name = "User")
 @RequiredArgsConstructor
 @Table(name = "en_user")
+@EqualsAndHashCode(callSuper = true)
 public class User extends DefaultModel {
 
     @Id
@@ -35,26 +44,13 @@ public class User extends DefaultModel {
 
     @Column(nullable = false)
     private String password;
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+		name = "re_user_role",
+		joinColumns = { @JoinColumn(name = "user_id") },
+		inverseJoinColumns = { @JoinColumn(name = "role_id") }
+	)
+    private Set<Role> roles = new HashSet<>();
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User user = (User) o;
-
-        if (!id.equals(user.id)) return false;
-        if (!username.equals(user.username)) return false;
-        if (!name.equals(user.name)) return false;
-        return password.equals(user.password);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + username.hashCode();
-        result = 31 * result + name.hashCode();
-        result = 31 * result + password.hashCode();
-        return result;
-    }
 }
