@@ -11,7 +11,7 @@ public class ObjectMapperBean {
 	@Default
 	@Produces
 	@ApplicationScoped
-	ObjectMapper objectMapper() {
+	public ObjectMapper objectMapper() {
 		return new ObjectMapper();
 	}
 }
