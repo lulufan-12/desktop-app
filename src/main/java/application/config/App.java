@@ -2,7 +2,6 @@ package application.config;
 
 import lombok.AllArgsConstructor;
 import org.flywaydb.core.Flyway;
-
 import jakarta.inject.Inject;
 
 @AllArgsConstructor(onConstructor = @__(@Inject))

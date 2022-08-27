@@ -11,7 +11,7 @@ public interface Repository<T extends DefaultModel, K> {
 
     List<T> findAll();
 
-    void save(T t);
+    Long save(T t);
 
     void update(T t);
 

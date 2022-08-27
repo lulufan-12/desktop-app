@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 @AllArgsConstructor(onConstructor = @__(@Inject))
 public class UserRepository implements Repository<User, Long> {
@@ -21,15 +22,20 @@ public class UserRepository implements Repository<User, Long> {
         return Optional.ofNullable(em.find(User.class, id));
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<User> findAll() {
         Query query = em.createQuery("SELECT e FROM User e");
         return (List<User>) query.getResultList();
     }
 
     @Override
-    public void save(User user) {
-        executeInsideTransaction(em -> em.persist(user));
+    public Long save(User user) {
+    	Function<EntityManager, Long> function = em -> {
+    		em.persist(user);
+    		return user.getId();
+    	};
+        return executeInsideTransactionAndReturnId(function);
     }
 
     @Override
@@ -43,14 +49,28 @@ public class UserRepository implements Repository<User, Long> {
     }
 
     private void executeInsideTransaction(Consumer<EntityManager> action) {
-        EntityTransaction tx = em.getTransaction();
+        EntityTransaction transaction = em.getTransaction();
         try {
-            tx.begin();
+        	transaction.begin();
             action.accept(em);
-            tx.commit();
+            transaction.commit();
         }
         catch (RuntimeException e) {
-            tx.rollback();
+        	transaction.rollback();
+            throw e;
+        }
+    }
+    
+    private Long executeInsideTransactionAndReturnId(Function<EntityManager, Long> action) {
+        EntityTransaction transaction = em.getTransaction();
+        try {
+        	transaction.begin();
+            Long id = action.apply(em);
+            transaction.commit();
+            return id;
+        }
+        catch (RuntimeException e) {
+        	transaction.rollback();
             throw e;
         }
     }
