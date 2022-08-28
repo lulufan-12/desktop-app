@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import jakarta.enterprise.inject.se.SeContainer;
 import jakarta.enterprise.inject.se.SeContainerInitializer;
 
-
 public class DatasourceBeanTest {
 	
 	@Test

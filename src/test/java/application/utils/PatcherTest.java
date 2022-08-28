@@ -12,7 +12,6 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.github.fge.jsonpatch.JsonPatchException;
 
 import application.bean.ObjectMapperBean;
@@ -30,7 +29,7 @@ public class PatcherTest {
 	}
 	
 	@Test
-	public void mapModelSuccesfully() {
+	public void mapModelSuccessfully() {
 		Map<String, Object> map = new HashMap<>();
 		map.put("id", 1L);
 		
@@ -39,7 +38,7 @@ public class PatcherTest {
 	}
 	
 	@Test
-	public void mapListSuccesfully() {
+	public void mapListSuccessfully() {
 		Map<String, Long> map = new HashMap<>();
 		map.put("id", 1L);
 		
@@ -57,7 +56,7 @@ public class PatcherTest {
 	}
 	
 	@Test
-	public void patchJsonSuccessfully() throws JsonMappingException, JsonProcessingException, JsonPatchException {
+	public void patchJsonSuccessfully() throws JsonProcessingException, JsonPatchException {
 		Map<String, Object> model = new HashMap<>();
 		model.put("id", 1L);
 		model.put("name", "User Test");
@@ -71,7 +70,7 @@ public class PatcherTest {
 	}
 	
 	@Test
-	public void patchFailed() throws JsonMappingException, JsonProcessingException, JsonPatchException {
+	public void patchFailed() {
 		Map<String, Object> model = new HashMap<>();
 		model.put("test", 1L);
 		
