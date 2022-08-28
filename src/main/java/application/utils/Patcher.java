@@ -2,13 +2,11 @@ package application.utils;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.POJONode;
 import com.github.fge.jsonpatch.JsonPatchException;
 import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
 
@@ -38,19 +36,11 @@ public class Patcher {
 	public <E, T> T patch(E bean, String json, Class<T> target) throws JsonPatchException, JsonMappingException, JsonProcessingException {
 		JsonMergePatch patch = objectMapperBean.objectMapper().readValue(json, JsonMergePatch.class);
 		 
-		POJONode node = objectMapperBean.objectMapper().convertValue(bean, POJONode.class);
+		JsonNode node = objectMapperBean.objectMapper().convertValue(bean, JsonNode.class);
 		
 		JsonNode patched = patch.apply(node);
 		
 		return map(patched, target);
 	}
 	
-	public <E, T> T patch(E bean, Map<String, Object> data, Class<T> target) throws JsonPatchException, JsonMappingException, JsonProcessingException {
-		String json = objectMapperBean.objectMapper().convertValue(data, String.class);
-		return patch(bean, json, target);
-	}
-	
-	public <E, T> T convertTo(E bean, Class<T> target) {
-		return objectMapperBean.objectMapper().convertValue(bean, target);
-	}
 }

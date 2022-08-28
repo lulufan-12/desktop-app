@@ -49,7 +49,7 @@ public class UserService {
 	}
 	
 	public void patch(Long id, Map<String, Object> data) {
-		String json = patcher.convertTo(data, String.class);
+		String json = patcher.map(data, String.class);
 		patch(id, json);
 	}
 	
