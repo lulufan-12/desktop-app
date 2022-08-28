@@ -30,27 +30,26 @@ import javax.persistence.Table;
 @EqualsAndHashCode(callSuper = true)
 public class User extends DefaultModel {
 
-    @Id
-    @Column(name = "user_id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "se_user_id", allocationSize = 1, sequenceName = "se_user_id")
-    private Long id;
+  @Id
+  @Column(name = "user_id")
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @SequenceGenerator(name = "se_user_id", allocationSize = 1, sequenceName = "se_user_id")
+  private Long id;
 
-    @Column(length = 30, nullable = false, unique = true)
-    private String username;
+  @Column(length = 30, nullable = false, unique = true)
+  private String username;
 
-    @Column(length = 100, nullable = false)
-    private String name;
+  @Column(length = 100, nullable = false)
+  private String name;
 
-    @Column(nullable = false)
-    private String password;
-    
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-		name = "re_user_role",
-		joinColumns = { @JoinColumn(name = "user_id") },
-		inverseJoinColumns = { @JoinColumn(name = "role_id") }
-	)
-    private Set<Role> roles = new HashSet<>();
+  @Column(nullable = false)
+  private String password;
 
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(
+    name = "re_user_role",
+    joinColumns = { @JoinColumn(name = "user_id") },
+    inverseJoinColumns = { @JoinColumn(name = "role_id") }
+  )
+  private Set<Role> roles = new HashSet<>();
 }

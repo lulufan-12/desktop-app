@@ -17,52 +17,52 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class UserService {
 
-	private final UserRepository repository;
-	private final Patcher patcher;
-	
-	public User findById(Long id) {
-		Optional<User> optional = repository.findById(id);
-		
-		if (optional.isEmpty()) {
-			throw new RuntimeException(String.format("User with id {} not found", id));
-		}
-		
-		return optional.get();
-	}
-	
-	public List<User> findAll() {
-		return repository.findAll();
-	}
-	
-	public Long save(User user) {
-		String hash = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10));
-		user.setPassword(hash);
-		return repository.save(user);
-	}
-	
-	public void delete(User user) {
-		repository.delete(user);
-	}
-	
-	public void update(User user) {
-		repository.update(user);
-	}
-	
-	public void patch(Long id, Map<String, Object> data) {
-		String json = patcher.map(data, String.class);
-		patch(id, json);
-	}
-	
-	public void patch(Long id, String json) {
-		User user = findById(id);
-		
-		try {
-			user = patcher.patch(user, json, User.class);	
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			throw new RuntimeException(String.format("Failed to update the user with id {}", id));
-		}
-		
-		repository.update(user);
-	}
+  private final UserRepository repository;
+  private final Patcher patcher;
+
+  public User findById(Long id) {
+    Optional<User> optional = repository.findById(id);
+
+    if (optional.isEmpty()) {
+      throw new RuntimeException(String.format("User with id {} not found", id));
+    }
+
+    return optional.get();
+  }
+
+  public List<User> findAll() {
+    return repository.findAll();
+  }
+
+  public Long save(User user) {
+    String hash = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10));
+    user.setPassword(hash);
+    return repository.save(user);
+  }
+
+  public void delete(User user) {
+    repository.delete(user);
+  }
+
+  public void update(User user) {
+    repository.update(user);
+  }
+
+  public void patch(Long id, Map<String, Object> data) {
+    String json = patcher.map(data, String.class);
+    patch(id, json);
+  }
+
+  public void patch(Long id, String json) {
+    User user = findById(id);
+
+    try {
+      user = patcher.patch(user, json, User.class);
+    } catch (Exception ex) {
+      ex.printStackTrace();
+      throw new RuntimeException(String.format("Failed to update the user with id {}", id));
+    }
+
+    repository.update(user);
+  }
 }

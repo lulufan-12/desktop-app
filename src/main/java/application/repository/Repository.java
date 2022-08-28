@@ -7,14 +7,14 @@ import java.util.Optional;
 
 public interface Repository<T extends DefaultModel, K> {
 
-    Optional<T> findById(K id);
+  Optional<T> findById(K id);
 
-    List<T> findAll();
+  List<T> findAll();
 
-    Long save(T t);
+  Long save(T t);
 
-    void update(T t);
+  void update(T t);
 
-    void delete(T t);
+  void delete(T t);
 
 }

@@ -29,19 +29,19 @@ import lombok.ToString;
 public class Role extends DefaultModel {
 	
 	@Id
-    @Column(name = "role_id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "se_role_id", allocationSize = 1, sequenceName = "se_role_id")
-    private Long id;
+	@Column(name = "role_id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(name = "se_role_id", allocationSize = 1, sequenceName = "se_role_id")
+	private Long id;
 	
 	@Column(length = 50, nullable = false, unique = true)
 	String name;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
+	@JoinTable(
 		name = "re_user_role",
 		joinColumns = { @JoinColumn(name = "role_id", nullable = false) },
 		inverseJoinColumns = { @JoinColumn(name = "user_id", nullable = false) }
 	)
-    private Set<User> users = new HashSet<>();
+	private Set<User> users = new HashSet<>();
 }
